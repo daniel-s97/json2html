@@ -36,6 +36,10 @@
 			"placeholder": "test"
 		},
 		"class": ["inputTest"]
+	},
+	"1": {
+		"type": "button",
+		"innerText": "Test"
 	}
 }`,
 						language: 'json',
@@ -49,6 +53,9 @@
 					document.getElementById('form').innerHTML = '';
 					json2form(editor.getValue(), document.getElementById('form'));
 				});
+				(function () {
+					json2form(editor.getValue(), document.getElementById('form'));
+				})();
 			});
 		</script>
 	</body>
