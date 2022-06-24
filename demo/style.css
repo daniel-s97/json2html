@@ -79,13 +79,19 @@ body {
     height: 100vh;
     display: flex;
     justify-content: space-between;
-}
-
-#json {
-    width: 50vw;
+    overflow: hidden;
 }
 
 #form {
-    width: 50vw;
-    border: 1px solid white;
+  border: 1px solid red;
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.inputTest {
+  background: transparent;
+  border: 1px solid red;
 }

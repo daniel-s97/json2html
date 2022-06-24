@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>JSON 2 form</title>
+		<meta charset="utf-8" />
+		<title>JSON2Form</title>
+		<link
+			rel="stylesheet"
+			data-name="vs/editor/editor.main"
+			href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/editor/editor.main.min.css"
+		/>
 		<link rel="stylesheet" href="style.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css"></link>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/monokai.min.css">
-
 	</head>
 	<body>
-		<div id="code"></div>
-        <form id="form"></form>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js"></script>
-        <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js"></script>
-        <script src="../json2form.js"></script>
-<script>
-    const form = document.getElementById('form');
-    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-    var editor = CodeMirror(document.querySelector('#code'), {
-      lineNumbers: true,
-      tabSize: 2,
-      value: '{"0":{"type":"input", "attributes": {"placeholder": "test", "name": "test", "value": "Test"}}}',
-      mode: 'javascript',
-      theme: 'monokai'
-    });
-    editor.setSize(vw / 2 - 50, vh);
-    editor.on('change', (e) => {
-        form.innerHTML = ""
-        json2form(editor.getValue())
-    })
-</script>
+		<div
+			id="container"
+			style="height: 100vh; width: 45vw; border: 1px solid black"
+		></div>
+		<form id="form"></form>
+		<script src="../json2form.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
+		<script>
+			// require is provided by loader.min.js.
+			require.config({
+				paths: {
+					vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs',
+				},
+			});
+			require(['vs/editor/editor.main'], () => {
+				const editor = monaco.editor.create(
+					document.getElementById('container'),
+					{
+						value: `{
+	"0": {
+		"type": "input",
+		"attributes": {
+			"placeholder": "test"
+		},
+		"class": ["inputTest"]
+	}
+}`,
+						language: 'json',
+						theme: 'vs-dark',
+						minimap: {
+							enabled: false,
+						},
+					}
+				);
+				editor.onDidChangeModelContent(function (e) {
+					document.getElementById('form').innerHTML = '';
+					json2form(editor.getValue(), document.getElementById('form'));
+				});
+			});
+		</script>
 	</body>
 </html>
